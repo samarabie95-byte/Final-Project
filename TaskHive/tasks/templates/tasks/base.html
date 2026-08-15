@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TaskHive</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+</head>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+
+    <div style="background-color: #2c3e50; color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center;">
+        
+        <div>
+            <a href="{% url 'home' %}" style="font-size: 28px; font-weight: bold; text-decoration: none; color: white; display: block; line-height: 1.1;">TaskHive</a>
+            {% if user.is_authenticated %}
+                <span style="color: #bdc3c7; font-size: 13px; display: block; margin-top: 4px;">Welcome, {{ user.username }}</span>
+            {% endif %}
+        </div>
+
+        <div style="display: flex; gap: 20px; align-items: center;">
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" style="color: white; text-decoration: none; font-size: 15px;">My Profile</a>
+                <a href="{% url 'post_task' %}" style="color: white; text-decoration: none; font-size: 15px;">Post Task</a>
+                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: inline; margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: white; cursor: pointer; font-size: 15px; padding: 0;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" style="color: white; text-decoration: none; font-size: 15px;">Login</a>
+                <a href="{% url 'register' %}" style="color: white; text-decoration: none; font-size: 15px;">Register</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div style="padding: 30px; max-width: 1200px; margin: 0 auto;">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

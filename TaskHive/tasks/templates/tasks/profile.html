@@ -1,0 +1,51 @@
+{% extends 'tasks/base.html' %}
+{% block content %}
+<div style="max-width: 900px; margin: 20px auto; font-family: Arial, sans-serif;">
+    
+<div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; display: flex; align-items: center; gap: 20px;">
+<div style="background-color: #2c3e50; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold;">
+{{ user.username|slice:":1"|upper }}
+    </div>
+<div>
+ <h2 style="margin: 0; color: #2c3e50;">{{ user.username }}</h2>
+ <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 14px;">Member Dashboard • TaskHive Freelancer</p>
+</div>
+</div>
+
+  <div style="margin-bottom: 40px;">
+    <h3 style="border-bottom: 2px solid #3498db; padding-bottom: 8px; color: #2c3e50;">My Posted Tasks</h3>
+    <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+{% for task in my_tasks %}
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+    <div>
+    <a href="{% url 'task_detail' task.id %}" style="font-size: 18px; font-weight: bold; color: #2980b9; text-decoration: none;">{{ task.title }}</a>
+    <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 13px;">Category: {{ task.category }} | Budget: ${{ task.budget }}</p>
+    </div>
+    <span style="background-color: #e1f5fe; color: #0288d1; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: bold;">{{ task.status }}</span>
+    </div>
+{% empty %}
+    <p style="color: #7f8c8d; background: white; padding: 15px; border-radius: 6px;">You haven't posted any tasks yet.</p>
+{% endfor %}
+   </div>
+    </div>
+
+<div>
+ <h3 style="border-bottom: 2px solid #2ecc71; padding-bottom: 8px; color: #2c3e50;">My Submitted Bids</h3>
+<div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+{% for bid in my_bids %}
+<div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+    <div>
+    <a href="{% url 'task_detail' bid.task.id %}" style="font-size: 18px; font-weight: bold; color: #27ae60; text-decoration: none;">{{ bid.task.title }}</a>
+    <p style="margin: 5px 0 0 0; color: #7f8c8d; font-size: 13px;">Your Message: "{{ bid.message }}"</p>
+    </div>
+<div style="text-align: right;">
+<span style="font-size: 16px; font-weight: bold; color: #27ae60;">${{ bid.amount }}</span>
+</div>
+</div>
+{% empty %}
+    <p style="color: #7f8c8d; background: white; padding: 15px; border-radius: 6px;">You haven't submitted any bids yet.</p>
+{% endfor %}
+</div>
+</div>
+</div>
+{% endblock %}
